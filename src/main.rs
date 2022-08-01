@@ -8,6 +8,10 @@ async fn run_js(file_path: &str) -> Result<(), AnyError> {
         ..Default::default()
     });
 
+    js_runtime
+        .execute_script("[runjs:runtime.js]", include_str!("./runtime.js"))
+        .unwrap();
+
     let mod_id = js_runtime.load_main_module(&main_module, None).await?;
     let result = js_runtime.mod_evaluate(mod_id);
     js_runtime.run_event_loop(false).await?;
